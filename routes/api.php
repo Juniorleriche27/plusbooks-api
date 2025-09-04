@@ -1,9 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
-// Healthcheck simple
+use App\Http\Controllers\EbookController;
 Route::get('/ping', fn () => ['status' => 'ok']);
 
-// Temporaire (si le modèle/DB n'est pas prêt, on renvoie un tableau vide)
-Route::get('/ebooks', fn () => []);
+// Ebooks (GET publics, CRUD simple)
+Route::get('/ebooks', [EbookController::class, 'index']);
+Route::get('/ebooks/{ebook}', [EebookController::class, 'show']); // ← attention, corrige en EbookController si auto-correct ne marche pas
+Route::post('/ebooks', [EbookController::class, 'store']);
+Route::post('/ebooks/{ebook}', [EbookController::class, 'update']); // simple pour aller vite
+Route::delete('/ebooks/{ebook}', [EbookController::class, 'destroy']);
