@@ -11,8 +11,16 @@ class EbookSeeder extends Seeder
     {
         Ebook::create([
             'title' => 'Premier test',
-            'description' => 'Demo',
+            'description' => 'E-book de démonstration',
             'price' => 0,
+            'file_path' => null,
+        ]);
+
+        Ebook::create([
+            'title' => 'Deuxième test',
+            'description' => 'Encore un e-book',
+            'price' => 10,
+            'file_path' => null,
         ]);
     }
 }
