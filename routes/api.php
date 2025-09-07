@@ -2,11 +2,22 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EbookController;
-Route::get('/ping', fn () => ['status' => 'ok']);
+use App\Http\Controllers\AuthController;
 
-// Ebooks (GET publics, CRUD simple)
-Route::get('/ebooks', [EbookController::class, 'index']);
-Route::get('/ebooks/{ebook}', [EebookController::class, 'show']); // ← attention, corrige en EbookController si auto-correct ne marche pas
-Route::post('/ebooks', [EbookController::class, 'store']);
-Route::post('/ebooks/{ebook}', [EbookController::class, 'update']); // simple pour aller vite
-Route::delete('/ebooks/{ebook}', [EbookController::class, 'destroy']);
+// --- Auth ---
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login',    [AuthController::class, 'login']);
+
+// --- Ebooks (public: liste + détail) ---
+Route::get('/ebooks',           [EbookController::class, 'index']);
+Route::get('/ebooks/{ebook}',   [EbookController::class, 'show']);
+
+// --- Ebooks (protégé: créer/modifier/supprimer) + profil ---
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/ebooks',                [EbookController::class, 'store']);
+    Route::put('/ebooks/{ebook}',         [EbookController::class, 'update']);
+    Route::delete('/ebooks/{ebook}',      [EbookController::class, 'destroy']);
+
+    Route::get('/me',     [AuthController::class, 'me']);
+    Route::post('/logout',[AuthController::class, 'logout']);
+});
