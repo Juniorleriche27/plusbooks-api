@@ -75,6 +75,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/groups/{group}/join',             [GroupController::class, 'join']);
     Route::post('/groups/{group}/leave',            [GroupController::class, 'leave']);
     Route::get('/groups/{group}/members',           [GroupController::class, 'members']);
+    // ...
+    Route::get('/ebooks/{ebook}/download', [EbookController::class, 'download'])->whereNumber('ebook');
+    Route::get('/ebooks/{ebook}',   [EbookController::class, 'show'])->whereNumber('ebook');
 
     // NOTE: on garde {userId} car ton contrôleur a la signature ($req, Group $group, $userId)
     // Si tu veux le binding de modèle User, renomme la route en {user} et type-hinte User $user.
